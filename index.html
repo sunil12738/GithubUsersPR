@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>List all the PR by a github user</title>
+	<script type = "text/javascript"  src = "jquery/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+			// Get the user name on button click
+			$("#search").click(function(event){
+				$search = $("#searchQuery").val();
+				$api = "https://api.github.com/users/"+$search;
+				$.getJSON($api, function(jsonbody) {
+					console.log($api);
+
+					// Need to deal with the 404 error
+					if(jsonbody["id"]){
+						document.write(jsonbody["login"]);	
+
+						// Get the user pull requests
+						$api = "https://api.github.com/search/issues?q=author:"+jsonbody["login"]+"+type:pr";
+						$.getJSON($api, function(jsonbody){
+							console.log($api);
+						});					
+					}
+					else{
+						document.write("No user found");
+					}
+            	});
+			});
+        });
+
+        // function getHttpRequest($api){
+        // 	$.getJSON($api)
+        // }
+
+	</script>
+</head>
+<body>
+	<div>
+		<input type="text" id="searchQuery">
+		<input type="submit" id="search">
+	</div>
+	<div>
+		
+	</div>
+</body>
+</html>
