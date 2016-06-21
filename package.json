@@ -1,0 +1,22 @@
+{
+  "name": "github_pr",
+  "version": "1.0.0",
+  "description": "express for github_api project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunil12738/GithubUsersPR.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sunil12738/GithubUsersPR/issues"
+  },
+  "homepage": "https://github.com/sunil12738/GithubUsersPR#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}

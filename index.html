@@ -22,7 +22,7 @@
 					$api = "https://api.github.com/search/issues?q=author:"+$jsonbody["login"]+"+type:pr"+$page_limit_url+$initial_page;
 					$.getJSON($api, function($jsonbody,$status,$xhr){
 						if($jsonbody["total_count"]==0){ // No PR found
-							$("#data").text('No PR found');								
+							print_message("No pull requests found", "page_number", "data");
 						}
 
 						else{ // Print the PR details in loop
@@ -33,12 +33,12 @@
 						}
 					});					
 				}).fail(function(){
-					$("#data").text('User not found');
+					print_message("User not found", "page_number", "data");
 				});
 			});
 		});
 
-		// Print the details in the page
+		// Print the PR list in the page if found
 		function print_pr_details($jsonbody, $div_id){
 			$("#"+$div_id).text("PR details");
 			$.each($jsonbody.items, function(index, element){
@@ -53,6 +53,12 @@
 					window.location.href="pull_request_detail.html?url="+element.pull_request.url;
 				});
 			});
+		}
+
+		// Print the message in case of pr/user not found
+		function print_message($message,$div_id1,$div_id2){
+			$("#"+$div_id1).text('');
+			$("#"+$div_id2).text($message);
 		}
 
 		// Print the page numbers in the top
@@ -70,6 +76,8 @@
 				print_pr_details($jsonbody, "data");
 			});
 		}
+
+
 
 	</script>
 </head>
