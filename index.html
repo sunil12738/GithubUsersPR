@@ -4,6 +4,10 @@
 	<title>List all the PR by a github user</title>
 	<script type = "text/javascript"  src = "jquery/jquery.min.js"></script>
 	<script type="text/javascript">
+		$initial_page=1; //The first page to be loaded is 1
+		$page_limit=10; // Specify the number of items per page
+		$page_limit_url="&per_page="+$page_limit+"&page="; // Append this string to the end of the api url to get the paginated results
+
 		$(document).ready(function(){
 
 			// API call 1: get the user name on button click
@@ -12,32 +16,60 @@
 				$api = "https://api.github.com/users/"+$search;
 				$.getJSON($api, function($jsonbody) {
 
+					$author = $jsonbody["login"];
+
 					// API call 2: get the user pull requests
-					$api = "https://api.github.com/search/issues?q=author:"+$jsonbody["login"]+"+type:pr";
-					$.getJSON($api, function($jsonbody){
+					$api = "https://api.github.com/search/issues?q=author:"+$jsonbody["login"]+"+type:pr"+$page_limit_url+$initial_page;
+					$.getJSON($api, function($jsonbody,$status,$xhr){
 						if($jsonbody["total_count"]==0){ // No PR found
-							$("#result").append('<div>No PR found</div>');								
+							$("#data").text('No PR found');								
 						}
+
 						else{ // Print the PR details in loop
-							$.each($jsonbody.items, function(index, element){
-								$("#result").append('<li>');
-								$("#result").append('<div>Pull request url: <a href='+element.pull_request.url+'>'+element.pull_request.url+'</a></div>');									
-								$("#result").append('<div>Url of repository is: '+element.repository_url+'</div>');
-								$("#result").append('<div>Current state: '+element.state+'</div>');
-								$("#result").append('<div>Date of creation: '+element.created_at+'</div>');
-								$("#result").append('<div>Date of closing: '+element.closed_at+'</div>');
-								$("#result").append('<div><input type="button" value="Details" id="button'+index+'"></div>');
-								$("#button"+index).click(function(){
-									window.location.href="pull_request_detail.html?url="+element.pull_request.url;
-								});
-							});
+							$total_pages = parseInt($jsonbody["total_count"]/$page_limit) + 1;
+							console.log("the total page: "+$total_pages);
+							print_page_numbers($jsonbody,$author, "page_number");
+							print_pr_details($jsonbody, "data");								
 						}
 					});					
-            	}).fail(function(){
-					$("#result").append('<div>User not found</div>');
+				}).fail(function(){
+					$("#data").text('User not found');
 				});
 			});
-        });
+		});
+
+		// Print the details in the page
+		function print_pr_details($jsonbody, $div_id){
+			$("#"+$div_id).text("PR details");
+			$.each($jsonbody.items, function(index, element){
+				$("#"+$div_id).append('<li>');
+				$("#"+$div_id).append('<div>Pull request url: <a href='+element.pull_request.url+'>'+element.pull_request.url+'</a></div>');									
+				$("#"+$div_id).append('<div>Url of repository is: '+element.repository_url+'</div>');
+				$("#"+$div_id).append('<div>Current state: '+element.state+'</div>');
+				$("#"+$div_id).append('<div>Date of creation: '+element.created_at+'</div>');
+				$("#"+$div_id).append('<div>Date of closing: '+element.closed_at+'</div>');
+				$("#"+$div_id).append('<div><input type="button" value="Details" id="button'+index+'"></div>');
+				$("#button"+index).click(function(){
+					window.location.href="pull_request_detail.html?url="+element.pull_request.url;
+				});
+			});
+		}
+
+		// Print the page numbers in the top
+		function print_page_numbers($jsonbody,$author,$div_id){
+			$("#"+$div_id).text("");
+			for($i = 1; $i<=$total_pages; ++$i){
+				$("#"+$div_id).append('<span><input type="button" id="page_'+$i+'" value="'+$i+'" onclick="go_to_page('+$i+');"></span>');
+			}
+		}
+
+		// API call on the page number button click
+		function go_to_page($i){
+			$api = "https://api.github.com/search/issues?q=author:"+$author+"+type:pr"+$page_limit_url+$i;
+			$.getJSON($api, function($jsonbody){
+				print_pr_details($jsonbody, "data");
+			});
+		}
 
 	</script>
 </head>
@@ -48,7 +80,12 @@
 			<input type="submit" id="search">
 		</div>
 		<div id="result">
-			
+			<div id="page_number">
+				
+			</div>
+			<div id="data">
+				
+			</div>
 		</div>
 	</div>
 </body>
