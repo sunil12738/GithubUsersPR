@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		Details of the pull request
+	</title>
+	<script type = "text/javascript"  src = "jquery/jquery.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		console.log(window.location.search);
+		$api = $.getUrlVar('url');
+
+		// Make API call to show the details of the pull request
+		$.getJSON($api,function($jsonbody){
+			console.log($jsonbody);
+			$("#detail").append('<div>User: '+$jsonbody["user"]["login"]+'</div>');
+			$("#detail").append('<div>state of PR: '+$jsonbody["state"]+'</div>');
+			$("#detail").append('<div>Merged :'+$jsonbody["merged"]+'</div>');
+			$("#detail").append('<div>Merged by: '+$jsonbody["merged_by"]["login"]+'</div>');
+			$("#detail").append('<div>Created at: '+$jsonbody["created_at"]+'</div>');
+			$("#detail").append('<div>Updated at: '+$jsonbody["updated_at"]+'</div>');
+			$("#detail").append('<div>Closed at: '+$jsonbody["closed_at"]+'</div>');
+			$("#detail").append('<div>Merged at: '+$jsonbody["merged_at"]+'</div>');
+			// $("#detail").append('<div>'+$jsonbody[""]+'</div>');
+		});
+	});
+
+	// Function copied from http://jquery-howto.blogspot.in/2009/09/get-url-parameters-values-with-jquery.html for url parameters
+	$.extend({
+	getUrlVars: function(){
+    	var vars = [], hash;
+    	var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    	for(var i = 0; i < hashes.length; i++){
+      		hash = hashes[i].split('=');
+      		vars.push(hash[0]);
+      		vars[hash[0]] = hash[1];
+    	}
+    	return vars;
+  	},
+  	getUrlVar: function(name){
+    	return $.getUrlVars()[name];
+  	}
+	});
+	</script>
+</head>
+<body>
+<div id="main_body">
+	<div id="detail">
+		
+	</div>
+</div>
+</body>
+</html>

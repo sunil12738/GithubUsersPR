@@ -6,43 +6,50 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 
-			// Get the user name on button click
-			$("#search").click(function(event){
+			// API call 1: get the user name on button click
+			$("#search").click(function(){
 				$search = $("#searchQuery").val();
 				$api = "https://api.github.com/users/"+$search;
-				$.getJSON($api, function(jsonbody) {
-					console.log($api);
+				$.getJSON($api, function($jsonbody) {
 
-					// Need to deal with the 404 error
-					if(jsonbody["id"]){
-						document.write(jsonbody["login"]);	
-
-						// Get the user pull requests
-						$api = "https://api.github.com/search/issues?q=author:"+jsonbody["login"]+"+type:pr";
-						$.getJSON($api, function(jsonbody){
-							console.log($api);
-						});					
-					}
-					else{
-						document.write("No user found");
-					}
-            	});
+					// API call 2: get the user pull requests
+					$api = "https://api.github.com/search/issues?q=author:"+$jsonbody["login"]+"+type:pr";
+					$.getJSON($api, function($jsonbody){
+						if($jsonbody["total_count"]==0){ // No PR found
+							$("#result").append('<div>No PR found</div>');								
+						}
+						else{ // Print the PR details in loop
+							$.each($jsonbody.items, function(index, element){
+								$("#result").append('<li>');
+								$("#result").append('<div>Pull request url: <a href='+element.pull_request.url+'>'+element.pull_request.url+'</a></div>');									
+								$("#result").append('<div>Url of repository is: '+element.repository_url+'</div>');
+								$("#result").append('<div>Current state: '+element.state+'</div>');
+								$("#result").append('<div>Date of creation: '+element.created_at+'</div>');
+								$("#result").append('<div>Date of closing: '+element.closed_at+'</div>');
+								$("#result").append('<div><input type="button" value="Details" id="button'+index+'"></div>');
+								$("#button"+index).click(function(){
+									window.location.href="pull_request_detail.html?url="+element.pull_request.url;
+								});
+							});
+						}
+					});					
+            	}).fail(function(){
+					$("#result").append('<div>User not found</div>');
+				});
 			});
         });
-
-        // function getHttpRequest($api){
-        // 	$.getJSON($api)
-        // }
 
 	</script>
 </head>
 <body>
-	<div>
-		<input type="text" id="searchQuery">
-		<input type="submit" id="search">
-	</div>
-	<div>
-		
+	<div id="main_body">
+		<div id="search_body">
+			<input type="text" id="searchQuery">
+			<input type="submit" id="search">
+		</div>
+		<div id="result">
+			
+		</div>
 	</div>
 </body>
 </html>
