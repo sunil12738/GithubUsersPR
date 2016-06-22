@@ -1,0 +1,20 @@
+body{
+	font-family: verdana;
+	font-size: 13px;
+	color: #444444;
+	margin: auto;
+	width: 1000px;
+}
+#main_body{
+	margin: auto;
+}
+#page_number{
+	margin: auto;
+}
+#result{
+	/*background: red;*/
+}
+/*.page_number_button:hover{
+	cursor: hand;
+    cursor: pointer;
+}*/
