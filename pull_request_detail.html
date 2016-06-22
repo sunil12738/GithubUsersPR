@@ -4,41 +4,76 @@
 	<title>
 		Details of the pull request
 	</title>
+
+	<!-- bootstrap -->
+<link href = "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel = "stylesheet">
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src = "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/pull_request_detail.css" media="screen" />
+
 	<script type = "text/javascript"  src = "jquery/jquery.min.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function(){
-		console.log(window.location.search);
 		$api = $.getUrlVar('url');
 
 		// Make API call to show the details of the pull request
 		$.getJSON($api,function($jsonbody){
-			print_pr_details($jsonbody, "detail");
+			print_details($jsonbody, "detail");
 		});
 	});
 
-	// function to print the details of the particular PR
+	// Function to print the details of the particular PR
+	function print_details($jsonbody, $div_id){
+		print_pr_details($jsonbody,"pr_detail");
+		print_pr_stats($jsonbody,"pr_stats");
+		print_repo_details($jsonbody,"repository_detail");
+		print_merger_details($jsonbody,"merge_detail");
+	}
+
+	// Function to print some details related to the PR
 	function print_pr_details($jsonbody, $div_id){
 		var array = [];
-		array.push('<div>User: '+$jsonbody["user"]["login"]+'</div>');
-		array.push('<div>state of PR: '+$jsonbody["state"]+'</div>');
-		array.push('<div>Merged :'+$jsonbody["merged"]+'</div>');
-		array.push('<div>Merged by: '+$jsonbody["merged_by"]["login"]+'</div>');
-		array.push('<div>Merged by: '+$jsonbody["merged_by"]["avatar_url"]+'</div>');
-		array.push('<div>Created at: '+$jsonbody["created_at"]+'</div>');
-		array.push('<div>Updated at: '+$jsonbody["updated_at"]+'</div>');
-		array.push('<div>Closed at: '+$jsonbody["closed_at"]+'</div>');
-		array.push('<div>Merged at: '+$jsonbody["merged_at"]+'</div>');
-		array.push('<div>HTML url: '+$jsonbody["html_url"]+'</div>');
-		array.push('<div>Issue url: '+$jsonbody["issue_url"]+'</div>');
-		array.push('<div>Commits url: '+$jsonbody["commits_url"]+'</div>');
-		array.push('<div>Comments url: '+$jsonbody["comments_url"]+'</div>');
-		array.push('<div>Repository name: '+$jsonbody["head"]["repo"]["name"]+'</div>');
-		array.push('<div>Repository url: '+$jsonbody["base"]["repo"]["html_url"]+'</div>');
-		array.push('<div>Total commits: '+$jsonbody["commits"]+'</div>');
-		array.push('<div>Total additions: '+$jsonbody["additions"]+'</div>');
-		array.push('<div>Deletions: '+$jsonbody["deletions"]+'</div>');
-		array.push('<div>Changed files: '+$jsonbody["changed_files"]+'</div>');
-		// array.push('<div>'+$jsonbody[""]+'</div>');
+		array.push('<div>'+$jsonbody["merged"]+'</div>');
+		array.push('<div>'+$jsonbody["state"]+'</div>');
+		array.push('<div>'+$jsonbody["created_at"]+'</div>');
+		array.push('<div>'+$jsonbody["updated_at"]+'</div>');
+		array.push('<div>'+$jsonbody["closed_at"]+'</div>');
+		array.push('<div>'+$jsonbody["merged_at"]+'</div>');
+		array.push('<div>'+$jsonbody["commits_url"]+'</div>');
+		array.push('<div>'+$jsonbody["comments_url"]+'</div>');
+		$("#"+$div_id).append(array.join(''));
+
+	}
+
+	// Function to print repo details related to the PR
+	function print_repo_details($jsonbody, $div_id){
+		var array = [];		
+		array.push('<div>'+$jsonbody["head"]["repo"]["name"]+'</div>');
+		array.push('<div>'+$jsonbody["base"]["repo"]["html_url"]+'</div>');
+		array.push('<div>'+$jsonbody["html_url"]+'</div>');
+		array.push('<div>'+$jsonbody["issue_url"]+'</div>');
+		$("#"+$div_id).append(array.join(''));
+
+	}
+
+	// Function to print the user who merged the PR
+	function print_merger_details($jsonbody, $div_id){
+		var array = [];
+		array.push('<div>'+$jsonbody["merged_by"]["login"]+'</div>');
+		$("#"+$div_id).append(array.join(''));
+
+	}
+
+	// Function to print some stats related to the PR
+	function print_pr_stats($jsonbody,$div_id){
+		var array = [];
+		array.push('<div>'+$jsonbody["commits"]+'</div>');
+		array.push('<div>'+$jsonbody["additions"]+'</div>');
+		array.push('<div>'+$jsonbody["deletions"]+'</div>');
+		array.push('<div>'+$jsonbody["changed_files"]+'</div>');
 		$("#"+$div_id).append(array.join(''));
 	}
 
@@ -62,7 +97,60 @@
 </head>
 <body>
 <div id="main_body">
-	<div id="detail">
+	<div id="detail" class="container">
+		
+		<h3>Pull Request Details</h3>
+		<div class="row">
+			<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
+				<div>Merged or Not</div>
+				<div>State of PR</div>
+				<div>Created At</div>
+				<div>Updated At</div>
+				<div>Closed At</div>
+				<div>Merged At</div>
+				<div>Commits URL</div>
+				<div>Comments URL</div>
+
+			</div>
+			<div id="pr_detail" class="col-xs-8 col-sm-6 col-md-4 col-lg-4">
+			</div>
+		</div>
+		
+		<h3>Pull Request stats</h3>
+		<div id="pr_stats" class="row">
+			<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
+				<div>Total Commits</div>
+				<div>Total Additions</div>
+				<div>Total Deletions</div>
+				<div>Changed files</div>
+			</div>
+			<div id="pr_stats" class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
+			</div>
+		</div>
+
+		<h3>Repository details</h3>
+		<div class="row">
+			<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
+				<div>Repository Name</div>
+				<div>Repository URL</div>
+				<div>HTML url</div>
+				<div>Issue url</div>
+			</div>
+			<div id="repository_detail" class="col-xs-8 col-sm-6 col-md-4 col-lg-4">
+			</div>
+		</div>
+
+		<h3>User who merged the PR</h3>
+		<div class="row">
+			<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
+				<div>Merged By</div>
+			</div>
+			<div>
+				<div id="merge_detail" class="col-xs-8 col-sm-6 col-md-4 col-lg-4">
+					
+				</div>
+			</div>
+		</div>
 		
 	</div>
 </div>
