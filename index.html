@@ -43,6 +43,8 @@
 			$("#"+$div_id).text("");
 			$.each($jsonbody.items, function(index, element){
 				var array=[];
+				$repo_name = get_repo_name(element.repository_url);
+				array.push('<div>Repository: '+$repo_name+'</div>');
 				array.push('<div>Pull request url: '+element.pull_request.url+'</div>');		
 				array.push('<div>Url of repository is: '+element.repository_url+'</div>');
 				array.push('<div>Current state: '+element.state+'</div>');
@@ -80,6 +82,14 @@
 			$.getJSON($api, function($jsonbody){
 				print_pr_details($jsonbody, "data");
 			});
+		}
+
+		// Get the repository name
+		function get_repo_name($url){
+			$position = $url.lastIndexOf("/");
+			$url_len = $url.length;
+			$repo_name = $url.substr($position+1,$url_len);
+			return $repo_name;
 		}
 
 
