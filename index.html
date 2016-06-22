@@ -40,15 +40,19 @@
 
 		// Print the PR list in the page if found
 		function print_pr_details($jsonbody, $div_id){
-			$("#"+$div_id).text("PR details");
+			$("#"+$div_id).text("");
 			$.each($jsonbody.items, function(index, element){
-				$("#"+$div_id).append('<li>');
-				$("#"+$div_id).append('<div>Pull request url: <a href='+element.pull_request.url+'>'+element.pull_request.url+'</a></div>');									
-				$("#"+$div_id).append('<div>Url of repository is: '+element.repository_url+'</div>');
-				$("#"+$div_id).append('<div>Current state: '+element.state+'</div>');
-				$("#"+$div_id).append('<div>Date of creation: '+element.created_at+'</div>');
-				$("#"+$div_id).append('<div>Date of closing: '+element.closed_at+'</div>');
-				$("#"+$div_id).append('<div><input type="button" value="Details" id="button'+index+'"></div>');
+				var array=[];
+				array.push('<div>Pull request url: '+element.pull_request.url+'</div>');		
+				array.push('<div>Url of repository is: '+element.repository_url+'</div>');
+				array.push('<div>Current state: '+element.state+'</div>');
+				array.push('<div>Date of creation: '+element.created_at+'</div>');
+				array.push('<div>Date of closing: '+element.closed_at+'</div>');
+				array.push('<div><input type="button" value="Details" id="button'+index+'"></div>');
+				array.push('<hr>');
+				$("#"+$div_id).append(array.join(''));
+
+				// Go to the specific PR details on button click
 				$("#button"+index).click(function(){
 					$url = "pull_request_detail.html?url="+element.pull_request.url;
 					window.open($url,'_blank');
