@@ -12,18 +12,35 @@
 
 		// Make API call to show the details of the pull request
 		$.getJSON($api,function($jsonbody){
-			console.log($jsonbody);
-			$("#detail").append('<div>User: '+$jsonbody["user"]["login"]+'</div>');
-			$("#detail").append('<div>state of PR: '+$jsonbody["state"]+'</div>');
-			$("#detail").append('<div>Merged :'+$jsonbody["merged"]+'</div>');
-			$("#detail").append('<div>Merged by: '+$jsonbody["merged_by"]["login"]+'</div>');
-			$("#detail").append('<div>Created at: '+$jsonbody["created_at"]+'</div>');
-			$("#detail").append('<div>Updated at: '+$jsonbody["updated_at"]+'</div>');
-			$("#detail").append('<div>Closed at: '+$jsonbody["closed_at"]+'</div>');
-			$("#detail").append('<div>Merged at: '+$jsonbody["merged_at"]+'</div>');
-			// $("#detail").append('<div>'+$jsonbody[""]+'</div>');
+			print_pr_details($jsonbody, "detail");
 		});
 	});
+
+	// function to print the details of the particular PR
+	function print_pr_details($jsonbody, $div_id){
+		var array = [];
+		array.push('<div>User: '+$jsonbody["user"]["login"]+'</div>');
+		array.push('<div>state of PR: '+$jsonbody["state"]+'</div>');
+		array.push('<div>Merged :'+$jsonbody["merged"]+'</div>');
+		array.push('<div>Merged by: '+$jsonbody["merged_by"]["login"]+'</div>');
+		array.push('<div>Merged by: '+$jsonbody["merged_by"]["avatar_url"]+'</div>');
+		array.push('<div>Created at: '+$jsonbody["created_at"]+'</div>');
+		array.push('<div>Updated at: '+$jsonbody["updated_at"]+'</div>');
+		array.push('<div>Closed at: '+$jsonbody["closed_at"]+'</div>');
+		array.push('<div>Merged at: '+$jsonbody["merged_at"]+'</div>');
+		array.push('<div>HTML url: '+$jsonbody["html_url"]+'</div>');
+		array.push('<div>Issue url: '+$jsonbody["issue_url"]+'</div>');
+		array.push('<div>Commits url: '+$jsonbody["commits_url"]+'</div>');
+		array.push('<div>Comments url: '+$jsonbody["comments_url"]+'</div>');
+		array.push('<div>Repository name: '+$jsonbody["head"]["repo"]["name"]+'</div>');
+		array.push('<div>Repository url: '+$jsonbody["base"]["repo"]["html_url"]+'</div>');
+		array.push('<div>Total commits: '+$jsonbody["commits"]+'</div>');
+		array.push('<div>Total additions: '+$jsonbody["additions"]+'</div>');
+		array.push('<div>Deletions: '+$jsonbody["deletions"]+'</div>');
+		array.push('<div>Changed files: '+$jsonbody["changed_files"]+'</div>');
+		// array.push('<div>'+$jsonbody[""]+'</div>');
+		$("#"+$div_id).append(array.join(''));
+	}
 
 	// Function copied from http://jquery-howto.blogspot.in/2009/09/get-url-parameters-values-with-jquery.html for url parameters
 	$.extend({
