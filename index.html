@@ -2,6 +2,16 @@
 <html>
 <head>
 	<title>List all the PR by a github user</title>
+
+<!-- bootstrap -->
+<link href = "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel = "stylesheet">
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src = "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/index.css" media="screen" />
+
 	<script type = "text/javascript"  src = "jquery/jquery.min.js"></script>
 	<script type="text/javascript">
 		$initial_page=1; //The first page to be loaded is 1
@@ -44,13 +54,36 @@
 			$.each($jsonbody.items, function(index, element){
 				var array=[];
 				$repo_name = get_repo_name(element.repository_url);
-				array.push('<div>Repository: '+$repo_name+'</div>');
-				array.push('<div>Pull request url: '+element.pull_request.url+'</div>');		
-				array.push('<div>Url of repository is: '+element.repository_url+'</div>');
-				array.push('<div>Current state: '+element.state+'</div>');
-				array.push('<div>Date of creation: '+element.created_at+'</div>');
-				array.push('<div>Date of closing: '+element.closed_at+'</div>');
-				array.push('<div><input type="button" value="Details" id="button'+index+'"></div>');
+
+				array.push('<div class="row">');
+				array.push('<div class="col-xs-8"><h3>Repository: '+$repo_name+'</h3></div>');
+				array.push('<div class="col-xs-4 text-right">Current state: '+element.state+'</div>');
+				array.push('</div>');
+
+				array.push('<div class="row">');
+				array.push('<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">Pull request url: </div>');		
+				array.push('<div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">'+element.pull_request.url+'</div>');		
+				array.push('</div>');
+				
+				array.push('<div class="row">');
+				array.push('<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">Url of repository: </div>');
+				array.push('<div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">'+element.repository_url+'</div>');
+				array.push('</div>');
+				
+				array.push('<div class="row">');
+				array.push('<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">Date of creation: </div>');
+				array.push('<div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">'+element.created_at+'</div>');
+				array.push('</div>');
+				
+				array.push('<div class="row">');
+				array.push('<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">Date of closing: </div>');
+				array.push('<div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">'+element.closed_at+'</div>');
+				array.push('</div>');
+				
+				array.push('<div class="row">');
+				array.push('<div class="text-right"><input type="button" value="Details" id="button'+index+'"></div>');
+				array.push('</div>');
+				
 				array.push('<hr>');
 				$("#"+$div_id).append(array.join(''));
 
@@ -98,16 +131,26 @@
 </head>
 <body>
 	<div id="main_body">
-		<div id="search_body">
-			<input type="text" id="searchQuery">
-			<input type="submit" id="search">
-		</div>
-		<div id="result">
-			<div id="page_number">
-				
+		<div id="search_body" class="container margin-top-40">
+			<div class="row">
+				<div class ="row-centered">
+					<input type="text" id="searchQuery" class="col-xs-12 col-sm-10 col-md-8 col-lg-5 col-centered">
+					<input type="submit" id="search" class="col-xs-4 col-sm-3 col-md-2 col-lg-1 col-centered">
+				</div>
 			</div>
-			<div id="data">
-				
+		</div>
+
+
+		<div id="result" class="container margin-top-40">
+			<div class="row">
+				<div class="row-centered">
+					<div id="page_number">
+						
+					</div>
+					<div id="data" class="col-xs-12 col-sm-11 col-md-10 col-lg-10 col-centered text-left margin-top-40">
+						
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
