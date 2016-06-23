@@ -98,60 +98,61 @@
 <body>
 <div id="main_body">
 	<div id="detail" class="container">
-		
-		<h3>Pull Request Details</h3>
-		<div class="row">
-			<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
-				<div>Merged or Not</div>
-				<div>State of PR</div>
-				<div>Created At</div>
-				<div>Updated At</div>
-				<div>Closed At</div>
-				<div>Merged At</div>
-				<div>Commits URL</div>
-				<div>Comments URL</div>
+		<div class="row-centered">
+			<h3>Pull Request Details</h3>
+			<div class="row">
+				<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2 col-centered text-left">
+					<div>Merged or Not</div>
+					<div>State of PR</div>
+					<div>Created At</div>
+					<div>Updated At</div>
+					<div>Closed At</div>
+					<div>Merged At</div>
+					<div>Commits URL</div>
+					<div>Comments URL</div>
 
+				</div>
+				<div id="pr_detail" class="col-xs-7 col-sm-6 col-md-4 col-lg-4 col-centered text-left">
+				
+				</div>
 			</div>
-			<div id="pr_detail" class="col-xs-8 col-sm-6 col-md-4 col-lg-4">
+			<hr>
+			<h3>Pull Request stats</h3>
+			<div class="row">
+				<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2 col-centered text-left">
+					<div>Total Commits</div>
+					<div>Total Additions</div>
+					<div>Total Deletions</div>
+					<div>Changed files</div>
+				</div>
+				<div id="pr_stats" class="col-xs-7 col-sm-6 col-md-4 col-lg-4 col-centered text-left">
+				
+				</div>
 			</div>
-		</div>
-		
-		<h3>Pull Request stats</h3>
-		<div id="pr_stats" class="row">
-			<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
-				<div>Total Commits</div>
-				<div>Total Additions</div>
-				<div>Total Deletions</div>
-				<div>Changed files</div>
+			<hr>
+			<h3>Repository details</h3>
+			<div class="row">
+				<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2 col-centered text-left">
+					<div>Repository Name</div>
+					<div>Repository URL</div>
+					<div>HTML url</div>
+					<div>Issue url</div>
+				</div>
+				<div id="repository_detail" class="col-xs-7 col-sm-6 col-md-4 col-lg-4 col-centered text-left">
+				
+				</div>
 			</div>
-			<div id="pr_stats" class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
-			</div>
-		</div>
-
-		<h3>Repository details</h3>
-		<div class="row">
-			<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
-				<div>Repository Name</div>
-				<div>Repository URL</div>
-				<div>HTML url</div>
-				<div>Issue url</div>
-			</div>
-			<div id="repository_detail" class="col-xs-8 col-sm-6 col-md-4 col-lg-4">
-			</div>
-		</div>
-
-		<h3>User who merged the PR</h3>
-		<div class="row">
-			<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
-				<div>Merged By</div>
-			</div>
-			<div>
-				<div id="merge_detail" class="col-xs-8 col-sm-6 col-md-4 col-lg-4">
-					
+			<hr>
+			<h3>User who merged the PR</h3>
+			<div class="row">
+				<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2 col-centered text-left">
+					<div>Merged By</div>
+				</div>
+				<div id="merge_detail" class="col-xs-7 col-sm-6 col-md-4 col-lg-4 col-centered text-left">
+						
 				</div>
 			</div>
 		</div>
-		
 	</div>
 </div>
 </body>
