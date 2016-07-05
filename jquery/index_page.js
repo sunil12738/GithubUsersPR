@@ -65,7 +65,7 @@ function print_pr_details($jsonbody, $div_id){
 		array.push('</div>');
 		
 		array.push('<div class="row">');
-		array.push('<div class="text-right"><input type="button" value="Details" id="button'+index+'"></div>');
+		array.push('<div class="text-right"><input type="button" class="btn-info" value="Details" id="button'+index+'"></div>');
 		array.push('</div>');
 		
 		array.push('<hr>');
